@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 
-# 1. DATA
+
 columns = ["IQ", "CGPA", "Tenth", "Twelfth", "Comm_Skill", 
            "Tech_Skills", "Comm", "Hackathons", "Certifications", "Backlogs","Interview_Performance"]
 
@@ -33,19 +33,18 @@ df = pd.DataFrame(data)
 def placement_logic(row):
     score = 0
 
-    # ACADEMIC ELIGIBILITY 
+    
     if row['Tenth'] >= 60 and row['Twelfth'] >= 60:
         score += 25
     else:
         score -= 40   
 
-    # CGPA (ranking factor)
     score += (row['CGPA'] * 6)
 
-    # SKILLS 
+  
     score += (row['Tech_Skills'] * 8)          
     score += (row['Comm_Skill'] * 5)           
-    score += (row['Interview_Performance'] * 10)
+    score += (row['Interview_Performance'] * 15)
 
     score += (row['Hackathons'] * 4)
     score += (row['Certifications'] * 3)
@@ -66,13 +65,12 @@ y = df['Placed']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 
-# 3. TRAIN MODEL
+
 
 model = RandomForestClassifier(n_estimators=200, random_state=42)
 model.fit(X_train, y_train)
 
 
-# 4. VERIFICATION
 
 y_pred = model.predict(X_test)
 print(f"✅ Model Trained! Accuracy: {accuracy_score(y_test, y_pred)*100:.2f}%")

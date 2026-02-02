@@ -5,7 +5,6 @@ import time
 
 # Load model
 try:
-    
     with open("model.pkl", "rb") as f:
         model = pickle.load(f)
 except FileNotFoundError:
@@ -26,8 +25,8 @@ st.markdown("""
 
     /* 2. Sidebar Styling (Light Background) */
     [data-testid="stSidebar"] {
-        background-color: #ffffff !important; /* White Background */
-        border-right: 1px solid #e0e0e0; /* Subtle grey border */
+        background-color: #ffffff !important;
+        border-right: 1px solid #e0e0e0;
     }
 
     /* Force all text in Sidebar to be Black */
@@ -42,28 +41,27 @@ st.markdown("""
 
     /* 3. Main Title Formatting */
     .main h1 {
-        color: #1e3a8a !important; /* Dark Blue Title */
+        color: #1e3a8a !important;
         text-align: center;
         font-weight: 800;
     }
 
     /* 4. Main Area Headers & Text */
     h3 {
-        color: #000000 !important; /* Black Subheaders */
+        color: #000000 !important;
     }
     
     p, label {
-        color: #000000 !important; /* Black Text */
+        color: #000000 !important;
     }
 
-    /* 5. Input Box Styling (White box, Black text) */
+    /* 5. Input Box Styling */
     .stNumberInput > div > div > input {
         background-color: #ffffff !important;
         color: #000000 !important;
         border: 1px solid #ced4da !important;
     }
     
-    /* Dropdown box styling */
     .stSelectbox > div > div {
         background-color: #ffffff !important;
         color: #000000 !important;
@@ -136,21 +134,23 @@ with st.form("placement_form"):
     st.markdown("---")
     submitted = st.form_submit_button("🚀 Predict My Future", type="primary")
 
-#  LOGIC 
+
 if submitted:
     backlog_val = 4 if backlogs == "More than 3" else backlogs
     
+    interview_performance = round((comm_skill + tech) / 2, 1)
+    
     with st.spinner("Analyzing..."):
-        time.sleep(1) # Fake delay
+        time.sleep(1)
         
         input_data = np.array([[
             iq, cgpa, tenth, twelfth,
             comm_skill, tech, comm,
-            hackathons, certifications, backlog_val
+            hackathons, certifications, backlog_val,
+            interview_performance
         ]])
 
         prediction = model.predict(input_data)[0]
         probability = model.predict_proba(input_data)[0][1] * 100 
 
-    
         show_result(prediction, probability)
