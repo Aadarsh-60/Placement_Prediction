@@ -1,3 +1,11 @@
+
+## 🚀 Live Demo
+
+🔗 **Streamlit App:**  
+https://placementprediction-gxqmgqehjckjgwtyhj9zgj.streamlit.app/
+
+
+
 🎓 Student Placement Prediction System
 
 A Machine Learning–based project that predicts whether a student is likely to get placed based on academic performance, skills, interview performance, and other factors.
