@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 
 # 1. DATA
 columns = ["IQ", "CGPA", "Tenth", "Twelfth", "Comm_Skill", 
-           "Tech_Skills", "Comm", "Hackathons", "Certifications", "Backlogs"]
+           "Tech_Skills", "Comm", "Hackathons", "Certifications", "Backlogs","Interview_Performance"]
 
 np.random.seed(42)
 n_samples = 2000
@@ -22,7 +22,10 @@ data = {
     'Comm': np.random.randint(1, 10, n_samples),
     'Hackathons': np.random.randint(0, 5, n_samples),
     'Certifications': np.random.randint(0, 5, n_samples),
-    'Backlogs': np.random.randint(0, 4, n_samples)
+    'Backlogs': np.random.randint(0, 4, n_samples),
+    'Interview_Performance': np.round(
+        (np.random.randint(1, 10, n_samples) +
+         np.random.randint(1, 10, n_samples)) / 2, 1)
 }
 df = pd.DataFrame(data)
 
@@ -42,7 +45,7 @@ def placement_logic(row):
     # SKILLS 
     score += (row['Tech_Skills'] * 8)          
     score += (row['Comm_Skill'] * 5)           
-    score += (row['Interview Performance'] * 10)
+    score += (row['Interview_Performance'] * 10)
 
     score += (row['Hackathons'] * 4)
     score += (row['Certifications'] * 3)
@@ -77,12 +80,12 @@ print(f"✅ Model Trained! Accuracy: {accuracy_score(y_test, y_pred)*100:.2f}%")
 print("\n--- 🔍 SCENARIO CHECK ---")
 
 
-safe_iq_student = [[60, 8.5, 75, 75, 9, 8, 9, 3, 2, 0]]
+safe_iq_student = [[60, 8.5, 75, 75, 9, 8, 9, 3, 2, 0,8.5]]
 pred = model.predict(safe_iq_student)[0]
 print(f"Student with IQ 70 (Safe Zone): {'🟢 Placed' if pred==1 else '🔴 Not Placed'}")
 
 
-critical_iq_student = [[40, 8.5, 75, 75, 9, 8, 9, 3, 2, 0]]
+critical_iq_student = [[40, 8.5, 75, 75, 9, 8, 9, 3, 2, 0,8.5]]
 pred2 = model.predict(critical_iq_student)[0]
 print(f"Student with IQ 55 (Critical Zone): {'🟢 Placed' if pred2==1 else '🔴 Not Placed'}")
 
